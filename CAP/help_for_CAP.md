@@ -7,6 +7,9 @@
   Returns a list of names of basic operations which are not computable in <category> but
   needed to have the categorical property <string> completely constructive.
 
+* InfoOfInstalledOperationsOfCategory( category )
+  Returns the number of primitive and derived operations and lists all known categorical properties of <category>
+  
 * ListKnownCategoricalProperties( category )
   Lists all known categorical properties of <category>.
 
