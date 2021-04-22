@@ -44,6 +44,8 @@ fi;
 
 ReadPackage( "FreydCategoriesForCAP", "gap/RingsAsAbCats.gd" );
 
+ReadPackage( "FreydCategoriesForCAP", "gap/GradedRingsAsAbCats.gd" );
+
 ReadPackage( "FreydCategoriesForCAP", "gap/GradeFiltration.gd" );
 
 ReadPackage( "FreydCategoriesForCAP", "gap/SerreSubcategoryFunctions.gd" );
