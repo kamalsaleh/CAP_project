@@ -29,19 +29,25 @@ end );
 InstallMethod( FreydCategory,
                [ IsCategoryOfGradedRows ],
     function( underlying_category )
-      local category, graded_ring;
+      local category, graded_ring, finalize_option;
       
       category := FREYD_CATEGORY( underlying_category: FinalizeCategory := false );
       
       ## you may replace generic methods of the category here
-      
-      Finalize( category );
-      
+       
       graded_ring := UnderlyingGradedRing( underlying_category );
       
       category!.Name := Concatenation( "Category of f.p. graded left modules over ", RingName( graded_ring ) );
       
       SetFilterObj( category, IsFpGradedLeftModules );
+      
+      finalize_option := ValueOption( "FinalizeCategory" );
+      
+      if finalize_option = false then
+        return category;
+      fi;
+      
+      Finalize( category );
       
       return category;
       
