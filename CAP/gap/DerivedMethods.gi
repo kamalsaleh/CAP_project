@@ -1182,6 +1182,18 @@ AddDerivationToCAP( IsLiftableAlongMonomorphism,
 end : Description := "IsLiftableAlongMonomorphism using IsLiftable" );
 
 ##
+AddDerivationToCAP( IsLiftableAlongMonomorphism,
+                    [ [ CokernelProjection, 1 ],
+                      [ IsZeroForMorphisms, 1 ],
+                      [ PreCompose, 1 ] ],
+  function( cat, iota, tau )
+    
+    return IsZeroForMorphisms( cat, PreCompose( cat, tau, CokernelProjection( cat, iota ) ) );
+    
+end : CategoryFilter := IsAbelianCategory,
+Description := "IsLiftableAlongMonomorphism using CokernelProjection, PreCompose and IsZeroForMorphisms" );
+
+##
 AddDerivationToCAP( IsColiftableAlongEpimorphism,
                     [ [ IsColiftable, 1 ] ],
   function( cat, epsilon, tau )
@@ -1189,6 +1201,18 @@ AddDerivationToCAP( IsColiftableAlongEpimorphism,
     return IsColiftable( cat, epsilon, tau );
     
 end : Description := "IsColiftableAlongEpimorphism using IsColiftable" );
+
+##
+AddDerivationToCAP( IsColiftableAlongEpimorphism,
+                    [ [ KernelEmbedding, 1 ],
+                      [ IsZeroForMorphisms, 1 ],
+                      [ PreCompose, 1 ] ],
+  function( cat, epsilon, tau )
+    
+    return IsZeroForMorphisms( cat, PreCompose( cat, KernelEmbedding( epsilon ), tau ) );
+    
+end : CategoryFilter := IsAbelianCategory,
+Description := "IsColiftableAlongEpimorphism using KernelEmbedding, PreCompose and IsZeroForMorphisms" );
 
 ###########################
 ##
