@@ -1142,7 +1142,136 @@ InstallGlobalFunction( INSTALL_FUNCTIONS_FOR_CAP_CATEGORY_OF_GRADED_ROWS,
     end );    
     
     fi;
-
+    
+    if CanComputeMonomialsWithGivenDegreeForRing( underlying_graded_ring ) then
+      
+      ##
+      AddRandomObjectByList( category,
+        function ( category, L )
+          local degree_list;
+          
+          if not ( Length( L ) = 2 and IsInt( L[1] ) and IsList( L[2] ) ) then
+            Error( "The input should be a list consiting of a non-negative integer and a list of degrees\n" );
+          fi;
+          
+          degree_list := List( [ 1 .. L[1] ], i -> [ Random( L[2] ), 1 ] );
+          
+          return GradedRow( degree_list, underlying_graded_ring );
+          
+      end );
+      
+      ##
+      AddRandomObjectByInteger( category,
+        function ( category, n )
+          local weights, degrees_list;
+          
+          weights := DuplicateFreeList( WeightsOfIndeterminates( underlying_graded_ring ) );
+          
+          weights := Concatenation( weights, -weights );
+          
+          degrees_list := List( [ 1 .. n ], i -> Sum( List( [ 1 .. Random( [ 1 .. 4 ] ) ], j -> Random( weights ) ) ) );
+          
+          return RandomObjectByList( category, [ n, degrees_list ] );
+          
+      end );
+      
+      ##
+      AddRandomMorphismWithFixedSourceAndRangeByList( category,
+        function ( S, R, L )
+          local degrees_S, degrees_R, mat;
+          
+          degrees_S := UnzipDegreeList( S );
+          
+          degrees_R := UnzipDegreeList( R );
+          
+          mat := RandomMatrix( degrees_S, degrees_R, underlying_graded_ring );
+          
+          return GradedRowOrColumnMorphism( S, mat, R );
+          
+      end );
+      
+      ##
+      AddRandomMorphismWithFixedSourceAndRangeByInteger( category,
+        function ( S, R, n )
+          
+          return RandomMorphismWithFixedSourceAndRangeByList( S, R, [] );
+          
+      end );
+      
+      ##
+      AddRandomMorphismWithFixedSourceByList( category,
+        function ( S, L )
+          local R;
+          
+          R := RandomObjectByList( category, L );
+          
+          return RandomMorphismWithFixedSourceAndRangeByList( S, R, [] );
+          
+      end );
+      
+      ##
+      AddRandomMorphismWithFixedSourceByInteger( category,
+        function ( S, n )
+          local degrees_S, weights, degrees_R, R;
+          
+          degrees_S := UnzipDegreeList( S );
+          
+          weights := DuplicateFreeList( WeightsOfIndeterminates( underlying_graded_ring ) );
+          
+          degrees_R := List( [ 1 .. n ],
+                          i -> [ Random( degrees_S ) + Sum( [ 1 .. Random( [ 1 .. 3 ] ) ], j -> Random( weights ) ), 1 ] );
+          
+          R := GradedRow( degrees_R, underlying_graded_ring );
+          
+          return RandomMorphismWithFixedSourceAndRangeByList( S, R, [] );
+          
+      end );
+      
+      ##
+      AddRandomMorphismWithFixedRangeByList( category,
+        function ( R, L )
+          local S;
+          
+          S := RandomObjectByList( category, L );
+          
+          return RandomMorphismWithFixedSourceAndRangeByList( S, R, [] );
+          
+      end );
+      
+      ##
+      AddRandomMorphismWithFixedRangeByInteger( category,
+        function ( R, n )
+          local degrees_R, weights, degrees_S, S;
+          
+          degrees_R := UnzipDegreeList( R );
+          
+          weights := DuplicateFreeList( WeightsOfIndeterminates( underlying_graded_ring ) );
+          
+          degrees_S := List( [ 1 .. n ],
+                          i -> [ Random( degrees_R ) - Sum( [ 1 .. Random( [ 1 .. 3 ] ) ], j -> Random( weights ) ), 1 ] );
+          
+          S := GradedRow( degrees_S, underlying_graded_ring );
+          
+          return RandomMorphismWithFixedSourceAndRangeByList( S, R, [] );
+          
+      end );
+      
+      ##
+      AddRandomMorphismByList( category,
+        function ( category, L )
+          
+          if not ( Length( L ) = 2 and ForAll( L, IsList ) and Length( L[1] ) = 2 and Length( L[2] = 2 ) ) then
+            Error( "The input should be a list consisting of two lists\n" );
+          fi;
+          
+          return RandomMorphismWithFixedSourceAndRangeByList(
+                      RandomObjectByList( category, L[1] ),
+                      RandomObjectByList( category, L[2] ),
+                      [] );
+      end );
+      
+    fi;
+   
 end );
 
 ##
