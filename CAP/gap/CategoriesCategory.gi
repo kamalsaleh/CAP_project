@@ -950,6 +950,204 @@ InstallMethod( NaturalIsomorphismFromIdentityToCanonicalizeZeroMorphisms,
     
 end );
 
+##
+InstallMethod( CreateAdditiveFunctorByTwoFunctions,
+        [ IsCapCategory, IsCapCategory, IsString, IsFunction, IsFunction ],
+        
+  function( source, range, name, object_func, morphism_func )
+    local F, values_on_objects, values_on_bases_elements, bases_of_source_category, fully_faithfull_functor, preimage_func_data, preimage_object_func, preimage_morphism_func;
+    
+    if not ( ForAll( [ source, range ], IsLinearCategoryOverCommutativeRing )
+              and IsIdenticalObj( CommutativeRingOfLinearCategory( source ), CommutativeRingOfLinearCategory( range ) ) ) then
+      
+      Error( "the source and range categories must be linear over the same commutative ring!\n" );
+      
+    fi;
+    
+    F := CapFunctor( name, source, range );
+    
+    values_on_objects := [[],[]];
+    values_on_bases_elements := [[],[]];
+    bases_of_source_category := [[],[]];
+    
+    AddObjectFunction( F,
+      function( object )
+        local i, value;
+        
+        i := PositionProperty( values_on_objects[1], x -> IsIdenticalObj( x, object ) or IsEqualForObjects( x, object ) );
+        
+        if i = fail then
+          
+          value := object_func( object );
+          
+          Add( values_on_objects[1], object );
+          
+          Add( values_on_objects[2], value );
+          
+          return value;
+          
+        fi;
+        
+        return values_on_objects[2][i];
+        
+    end );
+    
+    AddMorphismFunction( F,
+      function( FS, phi, FR )
+        local S, R, s, r, coeffs, positions, p;
+        
+        S := Source( phi );
+        R := Range( phi );
+        
+        s := PositionProperty( values_on_bases_elements[1], x -> IsIdenticalObj( x, S ) );
+        
+        if s = fail then
+          
+          Add( bases_of_source_category[1], S );
+          Add( bases_of_source_category[2], [] );
+          
+          Add( values_on_bases_elements[1], S );
+          Add( values_on_bases_elements[2], [] );
+          
+          s := Length( values_on_bases_elements[1] );
+          
+        fi;
+        
+        r := PositionProperty( values_on_bases_elements[2][s], x -> IsIdenticalObj( x[1], R ) );
+        
+        if r = fail then
+          
+          Add( bases_of_source_category[2][s], [ R, BasisOfExternalHom( source, S, R ) ] );
+          Add( values_on_bases_elements[2][s], [ R, [], false ] );
+          
+          r := Length( values_on_bases_elements[2][s] );
+          
+        fi;
+        
+        coeffs := CoefficientsOfMorphismWithGivenBasisOfExternalHom( phi, bases_of_source_category[2][s][r][2] );
+        
+        positions := PositionsProperty( coeffs, c -> not IsZero( c ) );
+        
+        if IsEmpty( positions ) then
+          return ZeroMorphism( range, FS, FR );
+        fi;
+        
+        if not values_on_bases_elements[2][s][r][3] then
+          
+          for p in positions do
+            
+            if not IsBound( values_on_bases_elements[2][s][r][2][p] ) then
+              values_on_bases_elements[2][s][r][2][p] := morphism_func( FS, bases_of_source_category[2][s][r][2][p], FR );
+            fi;
+          
+          od;
+          
+          if IsDenseList( values_on_bases_elements[2][s][r][2] ) and Length( values_on_bases_elements[2][s][r][2] ) = Length( bases_of_source_category[2][s][r][2] ) then
+            values_on_bases_elements[2][s][r][3] := true;
+          fi;
+        
+        fi;
+        
+        return Iterated( ListN( coeffs{positions}, values_on_bases_elements[2][s][r][2]{positions},
+                    { c, f } -> MultiplyWithElementOfCommutativeRingForMorphisms( range, c, f ) ),
+                      { f, g } -> AdditionForMorphisms( range, f, g ) );
+    
+    end );
+    
+    fully_faithfull_functor := CAP_INTERNAL_RETURN_OPTION_OR_DEFAULT( "fully_faithfull_functor", false ); 
+    
+    
+    if fully_faithfull_functor then
+      
+      preimage_object_func :=
+        function( o )
+          local p;
+          
+          p := PositionProperty( values_on_objects[2], object -> IsIdenticalObj( o, object ) or IsEqualForObjects( o, object ) );
+          
+          return values_on_objects[1][p];
+          
+      end;
+      
+      preimage_func_data := [[],[]];
+      
+      preimage_morphism_func :=
+        function( S, phi, R )
+          local s, r, positions, p, values, matrix, coeffs_phi;
+          
+          s := PositionProperty( values_on_bases_elements[1], x -> IsIdenticalObj( x, S ) );
+          
+          if s = fail then
+            
+            Add( bases_of_source_category[1], S );
+            Add( bases_of_source_category[2], [] );
+            
+            Add( values_on_bases_elements[1], S );
+            Add( values_on_bases_elements[2], [] );
+            
+            s := Length( values_on_bases_elements[1] );
+            
+          fi;
+          
+          if not IsBound( preimage_func_data[1][s] ) then
+            preimage_func_data[1][s] := S;
+            preimage_func_data[2][s] := [];
+          fi;
+          
+          r := PositionProperty( values_on_bases_elements[2][s], x -> IsIdenticalObj( x[1], R ) );
+          
+          if r = fail then
+            
+            Add( bases_of_source_category[2][s], [ R, BasisOfExternalHom( source, S, R ) ] );
+            Add( values_on_bases_elements[2][s], [ R, [], false ] );
+            
+            r := Length( values_on_bases_elements[2][s] );
+            
+          fi;
+          
+          if not IsBound( preimage_func_data[2][s][r] ) then
+            
+            positions := PositionsProperty( [ 1 .. Length( bases_of_source_category[2][s][r][2] ) ], p -> not IsBound( values_on_bases_elements[2][s][r][2][p] ) );
+            
+            for p in positions do
+              values_on_bases_elements[2][s][r][2][p] := morphism_func( Source( phi ), bases_of_source_category[2][s][r][2][p], Range( phi ) );
+            od;
+            
+            values_on_bases_elements[2][s][r][3] := true;
+            
+            values := values_on_bases_elements[2][s][r][2];
+            
+            matrix := RightInverse( HomalgMatrix( List( values, m -> CoefficientsOfMorphism( range, m ) ), Length( values ), Length( values ), CommutativeRingOfLinearCategory( range ) ) );
+            
+            if matrix = fail then
+              Error( "the functor does not seem to be full!\n" );
+            fi;
+             
+            preimage_func_data[2][s][r] := [ R, EntriesOfHomalgMatrixAsListList( matrix ) ];
+            
+          fi;
+          
+          coeffs_phi := CoefficientsOfMorphism( range, phi );
+          
+          if IsEmpty( coeffs_phi ) then
+            return ZeroMorphism( source, S, R );
+          else
+            return  coeffs_phi * preimage_func_data[2][s][r][2] * bases_of_source_category[2][s][r][2];
+          fi;
+          
+        end;
+        
+        F!.preimage_func_data := [ preimage_object_func, preimage_morphism_func ];
+        
+    fi;
+    
+    DeactivateCachingObject( ObjectCache( F ) );
+    DeactivateCachingObject( MorphismCache( F ) );
+    
+    return F;
+    
+end );
+
 ###################################
 ##
 ## Natural transformations

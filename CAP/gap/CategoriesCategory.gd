@@ -315,6 +315,8 @@ DeclareAttribute( "MorphismFunctionName",
                   IsCapFunctor );
 
 
+DeclareOperation( "CreateAdditiveFunctorByTwoFunctions",
+          [IsCapCategory, IsCapCategory, IsString, IsFunction, IsFunction  ] );
 
 #! @Description
 #!  Returns the identity functor of the
