@@ -448,6 +448,29 @@ InstallGlobalFunction( INSTALL_FUNCTIONS_FOR_RING_AS_CATEGORY,
         
     fi;
     
+    
+    ## Random Methods
+    
+    AddRandomObjectByInteger( category,
+      { cat, n } -> RingAsCategoryUniqueObject( cat ) );
+    
+    AddRandomMorphismWithFixedSourceAndRangeByInteger( category,
+      { cat, S, R, n } ->  RingAsCategoryMorphism( cat, Sum( [ 1 .. n ], i -> Random( ring ), Zero( ring ) ) ) );
+    
+    AddRandomObjectByList( category,
+      { cat, L } -> RingAsCategoryUniqueObject( cat ) );
+    
+    AddRandomMorphismWithFixedSourceAndRangeByList( category,
+      function( cat, S, R, L )
+        
+        if Length( L ) <> 1 or not IsInt( L[1] ) then
+            Error( "the input should be a list consisting of one integer!\n" );
+        fi;
+        
+        return RandomMorphismWithFixedSourceAndRangeByInteger( cat, S, R, L[1] );
+        
+    end );
+    
 end );
 
 ####################################
