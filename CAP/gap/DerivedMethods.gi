@@ -1411,47 +1411,95 @@ AddDerivationToCAP( RandomMorphismByInteger,
     
 end : Description := "RandomMorphismByInteger using RandomObjectByInteger and RandomMorphismWithFixedRangeByInteger" );
 
-##
-AddDerivationToCAP( RandomMorphismWithFixedSourceByInteger,
-                    [
-                      [ RandomObjectByInteger, 1 ],
-                      [ RandomMorphismWithFixedSourceAndRangeByInteger, 1 ]
-                    ],
-
-  function( cat, S, n )
-    
-    return RandomMorphismWithFixedSourceAndRangeByInteger( cat, S, RandomObjectByInteger( cat, n ), n );
-    
-end : CategoryFilter := IsAbCategory,
-Description := "RandomMorphismWithFixedSourceByInteger using RandomObjectByInteger and RandomMorphismWithFixedSourceAndRangeByInteger" );
+## Final methods for random methods by integers
 
 ##
-AddDerivationToCAP( RandomMorphismWithFixedRangeByInteger,
-                    [
-                      [ RandomObjectByInteger, 1 ],
-                      [ RandomMorphismWithFixedSourceAndRangeByInteger, 1 ]
-                    ],
-
-  function( cat, R, n )
-    
-    return RandomMorphismWithFixedSourceAndRangeByInteger( cat, RandomObjectByInteger( cat, n ), R, n );
-    
-end : CategoryFilter := IsAbCategory,
-Description := "RandomMorphismWithFixedRangeByInteger using RandomObjectByInteger and RandomMorphismWithFixedSourceAndRangeByInteger" );
-
-##
-AddDerivationToCAP( RandomMorphismByInteger,
+AddFinalDerivationBundle( # RandomMorphismByInteger,
                     [
                       [ RandomObjectByInteger, 2 ],
-                      [ RandomMorphismWithFixedSourceAndRangeByInteger, 1 ]
+                      [ RandomMorphismWithFixedSourceAndRangeByInteger, 1 ],
                     ],
-
+                    [
+                      RandomMorphismWithFixedSourceByInteger,
+                      RandomMorphismWithFixedRangeByInteger,
+                      RandomMorphismByInteger
+                    ],
+[
+  RandomMorphismByInteger,
   function( cat, n )
     
-    return RandomMorphismWithFixedSourceAndRangeByInteger( cat, RandomObjectByInteger( cat, n ), RandomObjectByInteger( cat, n ), n );
+    return RandomMorphismWithFixedSourceAndRangeByInteger( cat, RandomObjectByInteger( cat, n ), RandomObjectByInteger( cat, n ), 1 );
     
-end : CategoryFilter := IsAbCategory,
-Description := "RandomMorphismByInteger using RandomObjectByInteger and RandomMorphismWithFixedSourceAndRangeByInteger" );
+  end
+],
+[
+  RandomMorphismWithFixedSourceByInteger,
+  function( cat, S, n )
+    
+    return RandomMorphismWithFixedSourceAndRangeByInteger( cat, S, RandomObjectByInteger( cat, n ), 1 );
+    
+  end
+],
+[
+  RandomMorphismWithFixedRangeByInteger,
+  function( cat, R, n )
+    
+    return RandomMorphismWithFixedSourceAndRangeByInteger( cat, RandomObjectByInteger( cat, n ), R, 1 );
+    
+  end
+] : CategoryFilter := IsAbCategory,
+    Description := "RandomMorphism(WithFixed(Source/Range))ByInteger using RandomObjectByInteger and RandomMorphismWithFixedSourceAndRangeByInteger" );
+
+
+## Final methods for random methods by Lists
+
+##
+AddFinalDerivationBundle( # RandomMorphismByList,
+                    [
+                      [ RandomObjectByList, 2 ],
+                      [ RandomMorphismWithFixedSourceAndRangeByList, 1 ],
+                    ],
+                    [
+                      RandomMorphismWithFixedSourceByList,
+                      RandomMorphismWithFixedRangeByList,
+                      RandomMorphismByList
+                    ],
+[
+  RandomMorphismByList,
+  function( cat, L )
+    if Length( L ) <> 3 or not ForAll( L, IsList ) then
+        Error( "the input should be a list consisting of two lists!\n" );
+    fi;
+    
+    return RandomMorphismWithFixedSourceAndRangeByList( cat, RandomObjectByList( cat, L[1] ), RandomObjectByList( cat, L[2] ), L[3] );
+    
+  end
+],
+[
+  RandomMorphismWithFixedSourceByList,
+  function( cat, S, L )
+    
+    if Length( L ) <> 2 or not ForAll( L, IsList ) then
+        Error( "the input should be a list consisting of two lists!\n" );
+    fi;
+    
+    return RandomMorphismWithFixedSourceAndRangeByList( cat, S, RandomObjectByList( cat, L[1] ), L[2] );
+    
+  end
+],
+[
+  RandomMorphismWithFixedRangeByList,
+  function( cat, R, L )
+    
+    if Length( L ) <> 2 or not ForAll( L, IsList ) then
+        Error( "the input should be a list consisting of two lists!\n" );
+    fi;
+    
+    return RandomMorphismWithFixedSourceAndRangeByList( cat, RandomObjectByList( cat, L[1] ), R, L[2] );
+    
+  end
+] : CategoryFilter := IsAbCategory,
+    Description := "RandomMorphism(WithFixed(Source/Range))ByList using RandomObjectByList and RandomMorphismWithFixedSourceAndRangeByList" );
 
 ##
 AddDerivationToCAP( IsomorphismFromKernelOfCokernelToImageObject,
@@ -3565,3 +3613,4 @@ AddFinalDerivationBundle( # BasisOfExternalHom,
   end,
   Description := "Adding BasisOfExternalHom using homomorphism structure"
 );
+
