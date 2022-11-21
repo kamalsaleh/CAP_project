@@ -51,7 +51,7 @@ InstallMethod( CategoryOfRows,
     fi;
     
     # the folowing properties are not (yet) handled by AdditiveClosure
-    if HasIsCommutative( homalg_ring ) and IsCommutative( homalg_ring ) then
+    if false and HasIsCommutative( homalg_ring ) and IsCommutative( homalg_ring ) then
         
         SetIsStrictMonoidalCategory( cat, true );
         
@@ -908,7 +908,7 @@ InstallGlobalFunction( INSTALL_FUNCTIONS_FOR_CATEGORY_OF_ROWS,
     
     ## Operations related to tensor structure
     
-    if HasIsCommutative( ring ) and IsCommutative( ring ) then
+    if false and HasIsCommutative( ring ) and IsCommutative( ring ) then
         
         ##
         AddTensorProductOnObjects( category,

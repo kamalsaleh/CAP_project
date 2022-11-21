@@ -17,7 +17,7 @@
 #! of matrices of a field $F$.
 #! @Arguments object
 DeclareCategory( "IsVectorSpaceMorphism",
-                 IsCapCategoryMorphism and IsCellOfSkeletalCategory );
+                 IsCapCategoryMorphism );
 
 ####################################
 ##
@@ -41,7 +41,7 @@ DeclareOperation( "VectorSpaceMorphism",
 
 DeclareAttribute( "AsVectorSpaceMorphism", IsHomalgMatrix );
 
-DeclareOperation( "\/",
+DeclareOperation( "/",
                   [ IsHomalgMatrix, IsMatrixCategory ] );
 
 ####################################

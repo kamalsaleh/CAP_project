@@ -23,7 +23,8 @@ InstallGlobalFunction( MATRIX_CATEGORY,
   function( homalg_field )
     local category;
     
-    category := CreateCapCategory( Concatenation( "Category of matrices over ", RingName( homalg_field ) ) );
+    category := CreateCapCategory( Concatenation( "Category of matrices over ", RingName( homalg_field ) ),
+                  IsMatrixCategory, IsVectorSpaceObject, IsVectorSpaceMorphism, IsCapCategoryTwoCell );
     
     category!.category_as_first_argument := true;
     
@@ -47,12 +48,6 @@ InstallGlobalFunction( MATRIX_CATEGORY,
     # this cache replaces the KeyDependentOperation caching when using ObjectConstructor directly instead of MatrixCategoryObject
     SetCachingToWeak( category, "ObjectConstructor" );
     
-    SetFilterObj( category, IsMatrixCategory );
-    
-    AddObjectRepresentation( category, IsVectorSpaceObject and HasDimension and HasIsProjective and IsProjective );
-    
-    AddMorphismRepresentation( category, IsVectorSpaceMorphism and HasUnderlyingMatrix );
-    
     category!.field_for_matrix_category := homalg_field;
     
     SetUnderlyingRing( category, homalg_field );
@@ -65,18 +60,20 @@ InstallGlobalFunction( MATRIX_CATEGORY,
     
     SetIsAbelianCategoryWithEnoughInjectives( category, true );
     
+    #=
     SetIsRigidSymmetricClosedMonoidalCategory( category, true );
     
     SetIsRigidSymmetricCoclosedMonoidalCategory( category, true );
     
     SetIsStrictMonoidalCategory( category, true );
-    
+    # =#
     SetIsLinearCategoryOverCommutativeRing( category, true );
     
     SetCommutativeRingOfLinearCategory( category, homalg_field );
     
     SetRangeCategoryOfHomomorphismStructure( category, category );
     
+    #= comment for julia
     if category!.overhead then
         
         ## TODO: Logic for MatrixCategory
@@ -87,7 +84,7 @@ InstallGlobalFunction( MATRIX_CATEGORY,
         );
         
     fi;
-    
+    # =#
     if ValueOption( "no_precompiled_code" ) = true then
         
         if IsPackageMarkedForLoading( "FreydCategoriesForCAP", ">= 2022.10-14" ) then

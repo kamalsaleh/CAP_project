@@ -128,6 +128,7 @@ InstallMethod( Display,
     
 end );
 
+#=
 ##
 InstallMethod( LaTeXOutput,
           [ IsVectorSpaceMorphism ],
@@ -158,6 +159,7 @@ InstallMethod( LaTeXOutput,
     fi;
     
 end );
+# =#
 
 ####################################
 ##

@@ -100,6 +100,7 @@ InstallMethod( Display,
     
 end );
 
+#=
 ##
 InstallMethod( LaTeXOutput,
                [ IsVectorSpaceObject ],
@@ -109,3 +110,4 @@ InstallMethod( LaTeXOutput,
     return Concatenation( LaTeXOutput( UnderlyingRing( CapCategory( vector_space_object ) ) ), "^{1 \\times ", String( Dimension( vector_space_object ) ), "}" );
     
 end );
+# =#
