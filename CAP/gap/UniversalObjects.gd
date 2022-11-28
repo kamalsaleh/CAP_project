@@ -2152,6 +2152,54 @@ DeclareAttribute( "ImageEmbedding",
 DeclareOperation( "ImageEmbeddingWithGivenImageObject",
                   [ IsCapCategoryMorphism, IsCapCategoryObject ] );
 
+#! @Description
+#! The argument is a list $L = [ \alpha: A \rightarrow B, [ \mu:A \rightarrow A', \nu: B \rightarrow B' ], \alpha': A' \rightarrow B' ]$.
+#! The output is the morphism
+#! $\mathrm{ImageObject}( \alpha ) \rightarrow \mathrm{ImageObject}( \alpha' )$
+#! given by the functoriality of the image.
+#! @Returns a morphism in $\mathrm{Hom}(\mathrm{ImageObject}( \alpha ), \mathrm{ImageObject}( \alpha' ))$
+#! @Arguments L
+DeclareOperation( "ImageObjectFunctorial",
+                  [ IsList ] );
+
+#! @Description
+#! The arguments are three morphisms
+#! $\alpha: A \rightarrow B, \nu: B \rightarrow B', \alpha': A' \rightarrow B'$.
+#! The output is the morphism
+#! $\mathrm{ImageObject}( \alpha ) \rightarrow \mathrm{ImageObject}( \alpha' )$
+#! given by the functoriality of the image.
+#! @Returns a morphism in $\mathrm{Hom}(\mathrm{ImageObject}( \alpha ), \mathrm{ImageObject}( \alpha' ))$
+#! @Arguments alpha, nu, alpha_prime
+DeclareOperation( "ImageObjectFunctorial",
+                  [ IsCapCategoryMorphism, IsCapCategoryMorphism, IsCapCategoryMorphism ] );
+
+#! @Description
+#! The arguments are an object $s = \mathrm{ImageObject}( \alpha )$,
+#! three morphisms
+#! $\alpha: A \rightarrow B, \nu: B \rightarrow B', \alpha': A' \rightarrow B'$,
+#! and an object $r = \mathrm{ImageObject}( \alpha' )$.
+#! The output is the morphism
+#! $\mathrm{ImageObject}( \alpha ) \rightarrow \mathrm{ImageObject}( \alpha' )$
+#! given by the functoriality of the image.
+#! @Returns a morphism in $\mathrm{Hom}(s, r)$
+#! @Arguments s, alpha, nu, alpha_prime, r
+DeclareOperation( "ImageObjectFunctorialWithGivenImageObjects",
+                  [ IsCapCategoryObject, IsCapCategoryMorphism, IsCapCategoryMorphism,
+                    IsCapCategoryMorphism, IsCapCategoryObject ] );
+
+#! @Description
+#! The arguments are an object $s = \mathrm{ImageObject}( \alpha )$,
+#! four morphisms
+#! $\alpha: A \rightarrow B, \mu: A \rightarrow A', \nu: B \rightarrow B', \alpha': A' \rightarrow B'$,
+#! and an object $r = \mathrm{ImageObject}( \alpha' )$.
+#! The output is the morphism
+#! $\mathrm{ImageObject}( \alpha ) \rightarrow \mathrm{ImageObject}( \alpha' )$
+#! given by the functoriality of the image.
+#! @Returns a morphism in $\mathrm{Hom}(s, r)$
+#! @Arguments s, alpha, mu, nu, alpha_prime, r
+DeclareOperation( "ImageObjectFunctorialWithGivenImageObjects",
+                  [ IsCapCategoryObject, IsCapCategoryMorphism, IsCapCategoryMorphism,
+                    IsCapCategoryMorphism, IsCapCategoryMorphism, IsCapCategoryObject ] );
 
 #! @Description
 #! The argument is a morphism $\alpha: A \rightarrow B$.
@@ -2326,6 +2374,56 @@ DeclareAttribute( "CoimageProjection",
 #! @Arguments alpha, C
 DeclareOperation( "CoimageProjectionWithGivenCoimageObject",
                   [ IsCapCategoryMorphism, IsCapCategoryObject ] );
+
+
+#! @Description
+#! The argument is a list $L = [ \alpha: A \rightarrow B, [ \mu: A \rightarrow A', \nu: B \rightarrow B' ], \alpha': A' \rightarrow B' ]$ of morphisms.
+#! The output is the morphism
+#! $\mathrm{CoimageObject}( \alpha ) \rightarrow \mathrm{CoimageObject}( \alpha' )$
+#! given by the functoriality of the coimage.
+#! @Returns a morphism in $\mathrm{Hom}( \mathrm{CoimageObject}( \alpha ), \mathrm{CoimageObject}( \alpha' ) )$
+#! @Arguments L
+DeclareOperation( "CoimageObjectFunctorial",
+                  [ IsList ] );
+
+#! @Description
+#! The arguments are three morphisms
+#! $\alpha: A \rightarrow B$, $\mu: A \rightarrow A'$, $\alpha': A' \rightarrow B'$.
+#! The output is the morphism
+#! $\mathrm{CoimageObject}( \alpha ) \rightarrow \mathrm{CoimageObject}( \alpha' )$
+#! given by the functoriality of the coimage.
+#! @Returns a morphism in $\mathrm{Hom}( \mathrm{CoimageObject}( \alpha ), \mathrm{CoimageObject}( \alpha' ) )$
+#! @Arguments alpha, mu, alpha_prime
+DeclareOperation( "CoimageObjectFunctorial",
+                  [ IsCapCategoryMorphism, IsCapCategoryMorphism, IsCapCategoryMorphism ] );
+
+#! @Description
+#! The arguments are an object $s = \mathrm{CoimageObject}( \alpha )$,
+#! three morphisms
+#! $\alpha: A \rightarrow B$, $\mu: A \rightarrow A'$, $\alpha': A' \rightarrow B'$,
+#! and an object $r = \mathrm{CoimageObject}( \alpha' )$.
+#! The output is the morphism
+#! $\mathrm{CoimageObject}( \alpha ) \rightarrow \mathrm{CoimageObject}( \alpha' )$
+#! given by the functoriality of the coimage.
+#! @Returns a morphism in $\mathrm{Hom}( s, r )$
+#! @Arguments s, alpha, mu, alpha_prime, r
+DeclareOperation( "CoimageObjectFunctorialWithGivenCoimageObjects",
+                  [ IsCapCategoryObject, IsCapCategoryMorphism, IsCapCategoryMorphism, 
+                    IsCapCategoryMorphism, IsCapCategoryObject ] );
+
+#! @Description
+#! The arguments are an object $s = \mathrm{CoimageObject}( \alpha )$,
+#! four morphisms
+#! $\alpha: A \rightarrow B$, $\mu: A \rightarrow A'$, $\nu: B \rightarrow B'$, $\alpha': A' \rightarrow B'$,
+#! and an object $r = \mathrm{CoimageObject}( \alpha' )$.
+#! The output is the morphism
+#! $\mathrm{CoimageObject}( \alpha ) \rightarrow \mathrm{CoimageObject}( \alpha' )$
+#! given by the functoriality of the coimage.
+#! @Returns a morphism in $\mathrm{Hom}( s, r )$
+#! @Arguments s, alpha, mu, nu, alpha_prime, r
+DeclareOperation( "CoimageObjectFunctorialWithGivenKernelObjects",
+                  [ IsCapCategoryObject, IsCapCategoryMorphism, IsCapCategoryMorphism,
+                    IsCapCategoryMorphism, IsCapCategoryMorphism, IsCapCategoryObject ] );
 
 #! @Description
 #! The argument is a morphism $\alpha: A \rightarrow B$.

@@ -2331,7 +2331,8 @@ UniversalMorphismFromPushoutWithGivenPushout := rec(
 ImageObject := rec(
   filter_list := [ "category", "morphism" ],
   return_type := "object",
-  dual_operation := "CoimageObject" ),
+  dual_operation := "CoimageObject",
+  functorial := "ImageObjectFunctorial" ),
 
 ImageEmbedding := rec(
   filter_list := [ "category", "morphism" ],
@@ -2349,7 +2350,8 @@ ImageEmbeddingWithGivenImageObject := rec(
 CoimageObject := rec(
   filter_list := [ "category", "morphism" ],
   return_type := "object",
-  dual_operation := "ImageObject" ),
+  dual_operation := "ImageObject",
+  functorial := "CoimageObjectFunctorial" ),
 
 CoimageProjection := rec(
   filter_list := [ "category", "morphism" ],
@@ -2363,6 +2365,48 @@ CoimageProjectionWithGivenCoimageObject := rec(
   io_type := [ [ "alpha", "C" ], [ "alpha_source", "C" ] ],
   return_type := "morphism",
   dual_operation := "ImageEmbeddingWithGivenImageObject" ),
+
+ImageObjectFunctorial := rec(
+  filter_list := [ "category", "morphism", "morphism", "morphism" ],
+  input_arguments_names := [ "cat", "alpha", "nu", "alphap" ],
+  return_type := "morphism",
+  output_source_getter_string := "ImageObject( cat, alpha )",
+  output_range_getter_string := "ImageObject( cat, alphap )",
+  with_given_object_position := "both",
+  dual_operation := "CoimageObjectFunctorial",
+  dual_arguments_reversed := true,
+  compatible_with_congruence_of_morphisms := false,
+),
+
+ImageObjectFunctorialWithGivenImageObjects := rec(
+  filter_list := [ "category", "object", "morphism", "morphism", "morphism", "object" ],
+  io_type := [ [ "P", "alpha", "nu", "alphap", "Pp" ], [ "P", "Pp" ] ],
+  return_type := "morphism",
+  dual_operation := "CoimageObjectFunctorialWithGivenCoimageObjects",
+  dual_arguments_reversed := true,
+  compatible_with_congruence_of_morphisms := false,
+),
+
+CoimageObjectFunctorial := rec(
+  filter_list := [ "category", "morphism", "morphism", "morphism" ],
+  input_arguments_names := [ "cat", "alpha", "mu", "alphap" ],
+  return_type := "morphism",
+  output_source_getter_string := "CoimageObject( cat, alpha )",
+  output_range_getter_string := "CoimageObject( cat, alphap )",
+  with_given_object_position := "both",
+  dual_operation := "ImageObjectFunctorial",
+  dual_arguments_reversed := true,
+  compatible_with_congruence_of_morphisms := false,
+),
+
+CoimageObjectFunctorialWithGivenCoimageObjects := rec(
+  filter_list := [ "category", "object", "morphism", "morphism", "morphism", "object" ],
+  io_type := [ [ "P", "alpha", "mu", "alphap", "Pp" ], [ "P", "Pp" ] ],
+  return_type := "morphism",
+  dual_operation := "ImageObjectFunctorialWithGivenImageObjects",
+  dual_arguments_reversed := true,
+  compatible_with_congruence_of_morphisms := false,
+),
 
 AstrictionToCoimage := rec(
   filter_list := [ "category", "morphism" ],
