@@ -539,9 +539,13 @@ InstallGlobalFunction( INSTALL_FUNCTIONS_FOR_ADELMAN_CATEGORY,
     AddUniversalMorphismIntoDirectSumWithGivenDirectSum( category,
       function( cat, diagram, test_object, source, direct_sum_object )
         
-        return AdelmanCategoryMorphism( cat, Source( source[1] ),
-                                        UniversalMorphismIntoDirectSum( List( diagram, obj -> Range( RelationMorphism( obj ) ) ),
-                                                                        List( source, mor -> UnderlyingMorphism( mor ) ) ),
+        return AdelmanCategoryMorphism( cat, test_object,
+                                        UniversalMorphismIntoDirectSumWithGivenDirectSum(
+                                            underlying_category,
+                                            List( diagram, obj -> Range( RelationMorphism( obj ) ) ),
+                                            Range( RelationMorphism( test_object ) ),
+                                            List( source, mor -> UnderlyingMorphism( mor ) ),
+                                            Range( RelationMorphism( direct_sum_object ) ) ),
                                         direct_sum_object
                                       );
         
@@ -563,9 +567,13 @@ InstallGlobalFunction( INSTALL_FUNCTIONS_FOR_ADELMAN_CATEGORY,
       function( cat, diagram, test_object, sink, direct_sum_object )
         
         return AdelmanCategoryMorphism( cat, direct_sum_object,
-                                        UniversalMorphismFromDirectSum( List( diagram, obj -> Range( RelationMorphism( obj ) ) ),
-                                                                        List( sink, mor -> UnderlyingMorphism( mor ) ) ),
-                                        Range( sink[1] )
+                                        UniversalMorphismFromDirectSumWithGivenDirectSum(
+                                              underlying_category,
+                                              List( diagram, obj -> Range( RelationMorphism( obj ) ) ),
+                                              Range( RelationMorphism( test_object ) ),
+                                              List( sink, mor -> UnderlyingMorphism( mor ) ),
+                                              Range( RelationMorphism( direct_sum_object ) ) ),
+                                        test_object
                                       );
         
     end );
