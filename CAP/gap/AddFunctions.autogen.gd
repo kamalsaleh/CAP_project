@@ -107,6 +107,44 @@ DeclareOperation( "AddAstrictionToCoimageWithGivenCoimageObject",
 #! @Description
 #! The arguments are a category $C$ and a function $F$.
 #! This operation adds the given function $F$
+#! to the category for the basic operation `BasisForSolutionsOfHomogeneousDoubleLinearSystemInLinearCategory`.
+#! $F: ( arg2, arg3, arg4, arg5 ) \mapsto \mathtt{BasisForSolutionsOfHomogeneousDoubleLinearSystemInLinearCategory}(arg2, arg3, arg4, arg5)$.
+#! @Returns nothing
+#! @Arguments C, F
+DeclareOperation( "AddBasisForSolutionsOfHomogeneousDoubleLinearSystemInLinearCategory",
+                  [ IsCapCategory, IsFunction ] );
+
+DeclareOperation( "AddBasisForSolutionsOfHomogeneousDoubleLinearSystemInLinearCategory",
+                  [ IsCapCategory, IsFunction, IsInt ] );
+
+DeclareOperation( "AddBasisForSolutionsOfHomogeneousDoubleLinearSystemInLinearCategory",
+                  [ IsCapCategory, IsList, IsInt ] );
+
+DeclareOperation( "AddBasisForSolutionsOfHomogeneousDoubleLinearSystemInLinearCategory",
+                  [ IsCapCategory, IsList ] );
+
+#! @Description
+#! The arguments are a category $C$ and a function $F$.
+#! This operation adds the given function $F$
+#! to the category for the basic operation `BasisForSolutionsOfHomogeneousLinearSystemInLinearCategory`.
+#! $F: ( arg2, arg3 ) \mapsto \mathtt{BasisForSolutionsOfHomogeneousLinearSystemInLinearCategory}(arg2, arg3)$.
+#! @Returns nothing
+#! @Arguments C, F
+DeclareOperation( "AddBasisForSolutionsOfHomogeneousLinearSystemInLinearCategory",
+                  [ IsCapCategory, IsFunction ] );
+
+DeclareOperation( "AddBasisForSolutionsOfHomogeneousLinearSystemInLinearCategory",
+                  [ IsCapCategory, IsFunction, IsInt ] );
+
+DeclareOperation( "AddBasisForSolutionsOfHomogeneousLinearSystemInLinearCategory",
+                  [ IsCapCategory, IsList, IsInt ] );
+
+DeclareOperation( "AddBasisForSolutionsOfHomogeneousLinearSystemInLinearCategory",
+                  [ IsCapCategory, IsList ] );
+
+#! @Description
+#! The arguments are a category $C$ and a function $F$.
+#! This operation adds the given function $F$
 #! to the category for the basic operation `BasisOfExternalHom`.
 #! $F: ( arg2, arg3 ) \mapsto \mathtt{BasisOfExternalHom}(arg2, arg3)$.
 #! @Returns nothing
@@ -3028,6 +3066,44 @@ DeclareOperation( "AddMereExistenceOfSolutionOfLinearSystemInAbCategory",
                   [ IsCapCategory, IsList, IsInt ] );
 
 DeclareOperation( "AddMereExistenceOfSolutionOfLinearSystemInAbCategory",
+                  [ IsCapCategory, IsList ] );
+
+#! @Description
+#! The arguments are a category $C$ and a function $F$.
+#! This operation adds the given function $F$
+#! to the category for the basic operation `MereExistenceOfUniqueSolutionOfHomogeneousLinearSystemInAbCategory`.
+#! $F: ( arg2, arg3 ) \mapsto \mathtt{MereExistenceOfUniqueSolutionOfHomogeneousLinearSystemInAbCategory}(arg2, arg3)$.
+#! @Returns nothing
+#! @Arguments C, F
+DeclareOperation( "AddMereExistenceOfUniqueSolutionOfHomogeneousLinearSystemInAbCategory",
+                  [ IsCapCategory, IsFunction ] );
+
+DeclareOperation( "AddMereExistenceOfUniqueSolutionOfHomogeneousLinearSystemInAbCategory",
+                  [ IsCapCategory, IsFunction, IsInt ] );
+
+DeclareOperation( "AddMereExistenceOfUniqueSolutionOfHomogeneousLinearSystemInAbCategory",
+                  [ IsCapCategory, IsList, IsInt ] );
+
+DeclareOperation( "AddMereExistenceOfUniqueSolutionOfHomogeneousLinearSystemInAbCategory",
+                  [ IsCapCategory, IsList ] );
+
+#! @Description
+#! The arguments are a category $C$ and a function $F$.
+#! This operation adds the given function $F$
+#! to the category for the basic operation `MereExistenceOfUniqueSolutionOfLinearSystemInAbCategory`.
+#! $F: ( arg2, arg3, arg4 ) \mapsto \mathtt{MereExistenceOfUniqueSolutionOfLinearSystemInAbCategory}(arg2, arg3, arg4)$.
+#! @Returns nothing
+#! @Arguments C, F
+DeclareOperation( "AddMereExistenceOfUniqueSolutionOfLinearSystemInAbCategory",
+                  [ IsCapCategory, IsFunction ] );
+
+DeclareOperation( "AddMereExistenceOfUniqueSolutionOfLinearSystemInAbCategory",
+                  [ IsCapCategory, IsFunction, IsInt ] );
+
+DeclareOperation( "AddMereExistenceOfUniqueSolutionOfLinearSystemInAbCategory",
+                  [ IsCapCategory, IsList, IsInt ] );
+
+DeclareOperation( "AddMereExistenceOfUniqueSolutionOfLinearSystemInAbCategory",
                   [ IsCapCategory, IsList ] );
 
 #! @Description

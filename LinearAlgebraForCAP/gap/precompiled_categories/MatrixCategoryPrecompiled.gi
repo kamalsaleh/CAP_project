@@ -114,6 +114,139 @@ end
     , 201 : IsPrecompiledDerivation := true );
     
     ##
+    AddBasisForSolutionsOfHomogeneousDoubleLinearSystemInLinearCategory( cat,
+        
+########
+function ( cat_1, arg2_1, arg3_1, arg4_1, arg5_1 )
+    local hoisted_1_1, deduped_2_1, deduped_3_1, hoisted_4_1, hoisted_5_1, hoisted_8_1, hoisted_9_1, hoisted_10_1, hoisted_11_1, hoisted_12_1, deduped_15_1, deduped_18_1, deduped_19_1, deduped_20_1, deduped_21_1, deduped_22_1, deduped_23_1, deduped_24_1, deduped_25_1, deduped_26_1, deduped_27_1;
+    deduped_27_1 := UnderlyingRing( cat_1 );
+    deduped_26_1 := [ 1 .. Length( arg2_1 ) ];
+    deduped_25_1 := CAP_JIT_INCOMPLETE_LOGIC( arg3_1[1] );
+    deduped_24_1 := CAP_JIT_INCOMPLETE_LOGIC( arg2_1[1] );
+    deduped_23_1 := Length( deduped_24_1 );
+    deduped_22_1 := [ 1 .. deduped_23_1 ];
+    hoisted_1_1 := List( arg3_1, function ( logic_new_func_x_2 )
+            return List( logic_new_func_x_2, function ( logic_new_func_x_3 )
+                    return Dimension( Range( logic_new_func_x_3 ) );
+                end );
+        end );
+    deduped_21_1 := Sum( List( deduped_26_1, function ( logic_new_func_x_2 )
+              return Dimension( Source( CAP_JIT_INCOMPLETE_LOGIC( CAP_JIT_INCOMPLETE_LOGIC( arg2_1[logic_new_func_x_2] )[1] ) ) ) * hoisted_1_1[logic_new_func_x_2][1];
+          end ) );
+    hoisted_9_1 := List( arg5_1, function ( logic_new_func_list_2 )
+            return List( logic_new_func_list_2, UnderlyingMatrix );
+        end );
+    hoisted_8_1 := List( arg4_1, function ( logic_new_func_x_2 )
+            return List( logic_new_func_x_2, function ( logic_new_func_x_3 )
+                    return TransposedMatrix( UnderlyingMatrix( logic_new_func_x_3 ) );
+                end );
+        end );
+    hoisted_5_1 := List( arg3_1, function ( logic_new_func_list_2 )
+            return List( logic_new_func_list_2, UnderlyingMatrix );
+        end );
+    hoisted_4_1 := List( arg2_1, function ( logic_new_func_x_2 )
+            return List( logic_new_func_x_2, function ( logic_new_func_x_3 )
+                    return TransposedMatrix( UnderlyingMatrix( logic_new_func_x_3 ) );
+                end );
+        end );
+    deduped_3_1 := List( deduped_25_1, function ( logic_new_func_x_2 )
+            return Dimension( Source( logic_new_func_x_2 ) );
+        end );
+    deduped_2_1 := List( deduped_24_1, function ( logic_new_func_x_2 )
+            return Dimension( Range( logic_new_func_x_2 ) );
+        end );
+    deduped_20_1 := SyzygiesOfRows( UnionOfRows( deduped_27_1, deduped_21_1, List( deduped_22_1, function ( logic_new_func_x_2 )
+                  return UnionOfColumns( deduped_27_1, deduped_2_1[logic_new_func_x_2] * deduped_3_1[logic_new_func_x_2], List( deduped_26_1, function ( logic_new_func_x_3 )
+                            return KroneckerMat( hoisted_4_1[logic_new_func_x_3][logic_new_func_x_2], hoisted_5_1[logic_new_func_x_3][logic_new_func_x_2] );
+                        end ) );
+              end ) ) - UnionOfRows( deduped_27_1, deduped_21_1, List( deduped_22_1, function ( logic_new_func_x_2 )
+                  return UnionOfColumns( deduped_27_1, deduped_2_1[logic_new_func_x_2] * deduped_3_1[logic_new_func_x_2], List( deduped_26_1, function ( logic_new_func_x_3 )
+                            return KroneckerMat( hoisted_8_1[logic_new_func_x_3][logic_new_func_x_2], hoisted_9_1[logic_new_func_x_3][logic_new_func_x_2] );
+                        end ) );
+              end ) ) );
+    deduped_19_1 := NumberRows( deduped_20_1 );
+    deduped_18_1 := 1 * deduped_19_1;
+    deduped_15_1 := List( deduped_22_1, function ( logic_new_func_x_2 )
+            return deduped_2_1[logic_new_func_x_2] * deduped_3_1[logic_new_func_x_2];
+        end );
+    hoisted_12_1 := HomalgIdentityMatrix( deduped_18_1, deduped_27_1 );
+    hoisted_11_1 := List( deduped_25_1, Source );
+    hoisted_10_1 := List( deduped_24_1, Range );
+    return List( [ 1 .. deduped_18_1 ], function ( logic_new_func_x_2 )
+            local hoisted_1_2;
+            hoisted_1_2 := ConvertRowToMatrix( CertainRows( hoisted_12_1, [ logic_new_func_x_2 ] ), 1, deduped_19_1 ) * deduped_20_1;
+            return List( deduped_22_1, function ( j_3 )
+                    local deduped_1_3;
+                    deduped_1_3 := deduped_15_1[j_3];
+                    return CreateCapCategoryMorphismWithAttributes( cat_1, hoisted_10_1[j_3], hoisted_11_1[j_3], UnderlyingMatrix, ConvertRowToMatrix( hoisted_1_2 * UnionOfRows( HomalgZeroMatrix( Sum( deduped_15_1{[ 1 .. (j_3 - 1) ]} ), deduped_1_3, deduped_27_1 ), HomalgIdentityMatrix( deduped_1_3, deduped_27_1 ), HomalgZeroMatrix( Sum( deduped_15_1{[ (j_3 + 1) .. deduped_23_1 ]} ), deduped_1_3, deduped_27_1 ) ), deduped_2_1[j_3], deduped_3_1[j_3] ) );
+                end );
+        end );
+end
+########
+        
+    , 6118 : IsPrecompiledDerivation := true );
+    
+    ##
+    AddBasisForSolutionsOfHomogeneousLinearSystemInLinearCategory( cat,
+        
+########
+function ( cat_1, arg2_1, arg3_1 )
+    local hoisted_1_1, deduped_2_1, deduped_3_1, hoisted_4_1, hoisted_5_1, hoisted_8_1, hoisted_9_1, hoisted_10_1, deduped_13_1, deduped_16_1, deduped_17_1, deduped_18_1, deduped_19_1, deduped_20_1, deduped_21_1, deduped_22_1, deduped_23_1, deduped_24_1;
+    deduped_24_1 := UnderlyingRing( cat_1 );
+    deduped_23_1 := [ 1 .. Length( arg2_1 ) ];
+    deduped_22_1 := CAP_JIT_INCOMPLETE_LOGIC( arg3_1[1] );
+    deduped_21_1 := CAP_JIT_INCOMPLETE_LOGIC( arg2_1[1] );
+    deduped_20_1 := Length( deduped_21_1 );
+    deduped_19_1 := [ 1 .. deduped_20_1 ];
+    hoisted_5_1 := List( arg3_1, function ( logic_new_func_list_2 )
+            return List( logic_new_func_list_2, UnderlyingMatrix );
+        end );
+    hoisted_4_1 := List( arg2_1, function ( logic_new_func_x_2 )
+            return List( logic_new_func_x_2, function ( logic_new_func_x_3 )
+                    return TransposedMatrix( UnderlyingMatrix( logic_new_func_x_3 ) );
+                end );
+        end );
+    deduped_3_1 := List( deduped_22_1, function ( logic_new_func_x_2 )
+            return Dimension( Source( logic_new_func_x_2 ) );
+        end );
+    deduped_2_1 := List( deduped_21_1, function ( logic_new_func_x_2 )
+            return Dimension( Range( logic_new_func_x_2 ) );
+        end );
+    hoisted_1_1 := List( arg3_1, function ( logic_new_func_x_2 )
+            return List( logic_new_func_x_2, function ( logic_new_func_x_3 )
+                    return Dimension( Range( logic_new_func_x_3 ) );
+                end );
+        end );
+    deduped_18_1 := SyzygiesOfRows( UnionOfRows( deduped_24_1, Sum( List( deduped_23_1, function ( logic_new_func_x_2 )
+                  return Dimension( Source( CAP_JIT_INCOMPLETE_LOGIC( CAP_JIT_INCOMPLETE_LOGIC( arg2_1[logic_new_func_x_2] )[1] ) ) ) * hoisted_1_1[logic_new_func_x_2][1];
+              end ) ), List( deduped_19_1, function ( logic_new_func_x_2 )
+                return UnionOfColumns( deduped_24_1, deduped_2_1[logic_new_func_x_2] * deduped_3_1[logic_new_func_x_2], List( deduped_23_1, function ( logic_new_func_x_3 )
+                          return KroneckerMat( hoisted_4_1[logic_new_func_x_3][logic_new_func_x_2], hoisted_5_1[logic_new_func_x_3][logic_new_func_x_2] );
+                      end ) );
+            end ) ) );
+    deduped_17_1 := NumberRows( deduped_18_1 );
+    deduped_16_1 := 1 * deduped_17_1;
+    deduped_13_1 := List( deduped_19_1, function ( logic_new_func_x_2 )
+            return deduped_2_1[logic_new_func_x_2] * deduped_3_1[logic_new_func_x_2];
+        end );
+    hoisted_10_1 := HomalgIdentityMatrix( deduped_16_1, deduped_24_1 );
+    hoisted_9_1 := List( deduped_22_1, Source );
+    hoisted_8_1 := List( deduped_21_1, Range );
+    return List( [ 1 .. deduped_16_1 ], function ( logic_new_func_x_2 )
+            local hoisted_1_2;
+            hoisted_1_2 := ConvertRowToMatrix( CertainRows( hoisted_10_1, [ logic_new_func_x_2 ] ), 1, deduped_17_1 ) * deduped_18_1;
+            return List( deduped_19_1, function ( j_3 )
+                    local deduped_1_3;
+                    deduped_1_3 := deduped_13_1[j_3];
+                    return CreateCapCategoryMorphismWithAttributes( cat_1, hoisted_8_1[j_3], hoisted_9_1[j_3], UnderlyingMatrix, ConvertRowToMatrix( hoisted_1_2 * UnionOfRows( HomalgZeroMatrix( Sum( deduped_13_1{[ 1 .. (j_3 - 1) ]} ), deduped_1_3, deduped_24_1 ), HomalgIdentityMatrix( deduped_1_3, deduped_24_1 ), HomalgZeroMatrix( Sum( deduped_13_1{[ (j_3 + 1) .. deduped_20_1 ]} ), deduped_1_3, deduped_24_1 ) ), deduped_2_1[j_3], deduped_3_1[j_3] ) );
+                end );
+        end );
+end
+########
+        
+    , 4211 : IsPrecompiledDerivation := true );
+    
+    ##
     AddBasisOfExternalHom( cat,
         
 ########
@@ -3531,6 +3664,98 @@ end
 ########
         
     , 2306 : IsPrecompiledDerivation := true );
+    
+    ##
+    AddMereExistenceOfUniqueSolutionOfHomogeneousLinearSystemInAbCategory( cat,
+        
+########
+function ( cat_1, arg2_1, arg3_1 )
+    local deduped_1_1, deduped_2_1, hoisted_3_1, hoisted_4_1, hoisted_5_1, deduped_8_1, deduped_9_1, deduped_10_1, deduped_11_1;
+    deduped_11_1 := UnderlyingRing( cat_1 );
+    deduped_10_1 := [ 1 .. Length( arg2_1 ) ];
+    deduped_9_1 := CAP_JIT_INCOMPLETE_LOGIC( arg2_1[1] );
+    deduped_8_1 := [ 1 .. Length( deduped_9_1 ) ];
+    hoisted_5_1 := List( arg3_1, function ( logic_new_func_list_2 )
+            return List( logic_new_func_list_2, UnderlyingMatrix );
+        end );
+    hoisted_4_1 := List( arg2_1, function ( logic_new_func_x_2 )
+            return List( logic_new_func_x_2, function ( logic_new_func_x_3 )
+                    return TransposedMatrix( UnderlyingMatrix( logic_new_func_x_3 ) );
+                end );
+        end );
+    hoisted_3_1 := List( arg3_1, function ( logic_new_func_x_2 )
+            return List( logic_new_func_x_2, function ( logic_new_func_x_3 )
+                    return Dimension( Range( logic_new_func_x_3 ) );
+                end );
+        end );
+    deduped_2_1 := List( CAP_JIT_INCOMPLETE_LOGIC( arg3_1[1] ), function ( logic_new_func_x_2 )
+            return Dimension( Source( logic_new_func_x_2 ) );
+        end );
+    deduped_1_1 := List( deduped_9_1, function ( logic_new_func_x_2 )
+            return Dimension( Range( logic_new_func_x_2 ) );
+        end );
+    return Sum( List( deduped_8_1, function ( logic_new_func_x_2 )
+                  return deduped_1_1[logic_new_func_x_2] * deduped_2_1[logic_new_func_x_2];
+              end ) ) - RowRankOfMatrix( UnionOfRows( deduped_11_1, Sum( List( deduped_10_1, function ( logic_new_func_x_2 )
+                      return Dimension( Source( CAP_JIT_INCOMPLETE_LOGIC( CAP_JIT_INCOMPLETE_LOGIC( arg2_1[logic_new_func_x_2] )[1] ) ) ) * hoisted_3_1[logic_new_func_x_2][1];
+                  end ) ), List( deduped_8_1, function ( logic_new_func_x_2 )
+                    return UnionOfColumns( deduped_11_1, deduped_1_1[logic_new_func_x_2] * deduped_2_1[logic_new_func_x_2], List( deduped_10_1, function ( logic_new_func_x_3 )
+                              return KroneckerMat( hoisted_4_1[logic_new_func_x_3][logic_new_func_x_2], hoisted_5_1[logic_new_func_x_3][logic_new_func_x_2] );
+                          end ) );
+                end ) ) ) = 0;
+end
+########
+        
+    , 2408 : IsPrecompiledDerivation := true );
+    
+    ##
+    AddMereExistenceOfUniqueSolutionOfLinearSystemInAbCategory( cat,
+        
+########
+function ( cat_1, arg2_1, arg3_1, arg4_1 )
+    local deduped_1_1, deduped_2_1, hoisted_3_1, hoisted_4_1, hoisted_5_1, hoisted_8_1, deduped_9_1, deduped_10_1, deduped_11_1, deduped_12_1, deduped_13_1;
+    deduped_13_1 := UnderlyingRing( cat_1 );
+    deduped_12_1 := [ 1 .. Length( arg2_1 ) ];
+    deduped_11_1 := CAP_JIT_INCOMPLETE_LOGIC( arg2_1[1] );
+    deduped_10_1 := [ 1 .. Length( deduped_11_1 ) ];
+    hoisted_5_1 := List( arg3_1, function ( logic_new_func_list_2 )
+            return List( logic_new_func_list_2, UnderlyingMatrix );
+        end );
+    hoisted_4_1 := List( arg2_1, function ( logic_new_func_x_2 )
+            return List( logic_new_func_x_2, function ( logic_new_func_x_3 )
+                    return TransposedMatrix( UnderlyingMatrix( logic_new_func_x_3 ) );
+                end );
+        end );
+    hoisted_3_1 := List( arg3_1, function ( logic_new_func_x_2 )
+            return List( logic_new_func_x_2, function ( logic_new_func_x_3 )
+                    return Dimension( Range( logic_new_func_x_3 ) );
+                end );
+        end );
+    deduped_2_1 := List( CAP_JIT_INCOMPLETE_LOGIC( arg3_1[1] ), function ( logic_new_func_x_2 )
+            return Dimension( Source( logic_new_func_x_2 ) );
+        end );
+    deduped_1_1 := List( deduped_11_1, function ( logic_new_func_x_2 )
+            return Dimension( Range( logic_new_func_x_2 ) );
+        end );
+    deduped_9_1 := UnionOfRows( deduped_13_1, Sum( List( deduped_12_1, function ( logic_new_func_x_2 )
+                return Dimension( Source( CAP_JIT_INCOMPLETE_LOGIC( CAP_JIT_INCOMPLETE_LOGIC( arg2_1[logic_new_func_x_2] )[1] ) ) ) * hoisted_3_1[logic_new_func_x_2][1];
+            end ) ), List( deduped_10_1, function ( logic_new_func_x_2 )
+              return UnionOfColumns( deduped_13_1, deduped_1_1[logic_new_func_x_2] * deduped_2_1[logic_new_func_x_2], List( deduped_12_1, function ( logic_new_func_x_3 )
+                        return KroneckerMat( hoisted_4_1[logic_new_func_x_3][logic_new_func_x_2], hoisted_5_1[logic_new_func_x_3][logic_new_func_x_2] );
+                    end ) );
+          end ) );
+    hoisted_8_1 := List( arg4_1, function ( logic_new_func_x_2 )
+            return ConvertMatrixToRow( UnderlyingMatrix( logic_new_func_x_2 ) );
+        end );
+    return Sum( List( deduped_10_1, function ( logic_new_func_x_2 )
+                    return deduped_1_1[logic_new_func_x_2] * deduped_2_1[logic_new_func_x_2];
+                end ) ) - RowRankOfMatrix( deduped_9_1 ) = 0 and IsZero( DecideZeroRows( UnionOfColumns( deduped_13_1, 1, List( deduped_12_1, function ( logic_new_func_x_2 )
+                    return hoisted_8_1[logic_new_func_x_2];
+                end ) ), deduped_9_1 ) );
+end
+########
+        
+    , 2507 : IsPrecompiledDerivation := true );
     
     ##
     AddMonoidalPostCoComposeMorphism( cat,

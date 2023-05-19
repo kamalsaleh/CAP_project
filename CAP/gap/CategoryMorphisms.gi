@@ -604,6 +604,56 @@ InstallMethod( HomStructure,
 );
 
 ##
+InstallMethod( BasisForSolutionsOfHomogeneousDoubleLinearSystemInLinearCategory,
+        "for two lists",
+        [ IsList, IsList ],
+        
+  function( alpha, delta )
+    local cat, beta, gamma, i;
+    
+    cat := CapCategory( alpha[1][1] );
+    
+    if not CanCompute( cat, "BasisForSolutionsOfHomogeneousDoubleLinearSystemInLinearCategory" ) then
+        Error( "the operation <BasisForSolutionsOfHomogeneousDoubleLinearSystemInLinearCategory> must be computable in the category named \n:", Name( cat ) );
+    fi;
+    
+    beta := List( [ 1 .. Length( alpha ) ],
+                i ->  List( [ 1 .. Length( delta[i] ) ],
+                      function ( j )
+                        local alpha_ij, delta_ij;
+                        
+                        alpha_ij := alpha[i][j];
+                        delta_ij := delta[i][j];
+                         
+                        if IsEndomorphism( cat, delta_ij ) and not IsEqualToZeroMorphism( cat, alpha_ij ) then
+                            return IdentityMorphism( cat, Source( delta_ij ) );
+                        else
+                            return ZeroMorphism( cat, Source( delta_ij ), Range( delta_ij ) );
+                        fi;
+                        
+                      end ) );
+    
+    gamma := List( [ 1 .. Length( alpha ) ],
+                i ->  List( [ 1 .. Length( alpha[i] ) ],
+                      function ( j )
+                        local alpha_ij, delta_ij;
+                        
+                        alpha_ij := alpha[i][j];
+                        delta_ij := delta[i][j];
+                        
+                        if IsEndomorphism( cat, alpha_ij ) and not IsEqualToZeroMorphism( cat, delta_ij ) then
+                            return IdentityMorphism( cat, Source( alpha_ij ) );
+                        else
+                            return ZeroMorphism( cat, Source( alpha_ij ), Range( alpha_ij ) );
+                        fi;
+                        
+                      end ) );
+    
+    return BasisForSolutionsOfHomogeneousDoubleLinearSystemInLinearCategory( cat, alpha, beta, gamma, delta );
+    
+end );
+
+##
 
 # usually the type signatures should be part of the gd file, but `CapJitAddTypeSignature` is not available there
 

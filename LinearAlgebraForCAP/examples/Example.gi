@@ -143,6 +143,60 @@ right_side := PreCompose( [ i1, DualOnMorphisms( u ), u ] );;
 x := SolveLinearSystemInAbCategory( [ [ i1 ] ], [ [ u ] ], [ right_side ] )[1];;
 IsCongruentForMorphisms( PreCompose( [ i1, x, u ] ), right_side );
 #! true
+id_t := IdentityMorphism( t );;
+1*(11)*7 + 2*(12)*8 + 3*(13)*9;
+#! 620
+4*(11)*3 + 5*(12)*4 + 6*(13)*1;
+#! 450
+left_coeffs :=  [ [ 1 * id_t, 2 * id_t, 3 * id_t ], [ 4 * id_t, 5 * id_t, 6 * id_t ] ];;
+right_coeffs := [ [ 7 * id_t, 8 * id_t, 9 * id_t ], [ 3 * id_t, 4 * id_t, 1 * id_t ] ];;
+gammas := [ 620 * id_t, 450 * id_t ];;
+MereExistenceOfSolutionOfLinearSystemInAbCategory( vec, left_coeffs, right_coeffs, gammas );
+#! true
+MereExistenceOfUniqueSolutionOfLinearSystemInAbCategory( vec, left_coeffs, right_coeffs, gammas );
+#! false
+x := SolveLinearSystemInAbCategory( vec, left_coeffs, right_coeffs, gammas );;
+1*x[1]*7 + 2*x[2]*8 + 3*x[3]*9 = gammas[1] * id_t;
+#! true
+4*x[1]*3 + 5*x[2]*4 + 6*x[3]*1 = gammas[2] * id_t;
+#! true
+MereExistenceOfUniqueSolutionOfHomogeneousLinearSystemInAbCategory( vec, left_coeffs, right_coeffs );
+#! false
+basis := BasisForSolutionsOfHomogeneousLinearSystemInLinearCategory( vec, left_coeffs, right_coeffs );;
+Length( basis );
+#! 1
+Display( basis[1][1] );
+#! [ [  111/13 ] ]
+#!
+#! A morphism in Category of matrices over Q
+Display( basis[1][2] );
+#! [ [  -141/26 ] ]
+#!
+#! A morphism in Category of matrices over Q
+Display( basis[1][3] );
+#! [ [  1 ] ]
+#!
+#! A morphism in Category of matrices over Q
+2*(11)*5 + 3*(12)*7 + 9*(13)*2;
+#! 596
+Add( left_coeffs,  [ 2 * id_t, 3 * id_t, 9 * id_t ] );
+Add( right_coeffs, [ 5 * id_t, 7 * id_t, 2 * id_t ] );
+Add( gammas, 596 * id_t );
+MereExistenceOfSolutionOfLinearSystemInAbCategory( vec, left_coeffs, right_coeffs, gammas );
+#! true
+MereExistenceOfUniqueSolutionOfLinearSystemInAbCategory( vec, left_coeffs, right_coeffs, gammas );
+#! true
+x := SolveLinearSystemInAbCategory( vec, left_coeffs, right_coeffs, gammas );;
+1*x[1]*7 + 2*x[2]*8 + 3*x[3]*9 = gammas[1] * id_t;
+#! true
+4*x[1]*3 + 5*x[2]*4 + 6*x[3]*1 = gammas[2] * id_t;
+#! true
+2*x[1]*5 + 3*x[2]*7 + 9*x[3]*2 = gammas[3] * id_t;
+#! true
+MereExistenceOfUniqueSolutionOfHomogeneousLinearSystemInAbCategory( vec, left_coeffs, right_coeffs );
+#! true
+basis := BasisForSolutionsOfHomogeneousLinearSystemInLinearCategory( vec, left_coeffs, right_coeffs );
+#! [ ]
 a_otimes_b := TensorProductOnObjects( a, b );
 #! <A vector space object over Q of dimension 12>
 hom_ab := InternalHomOnObjects( a, b );
