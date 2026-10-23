@@ -116,6 +116,7 @@ InstallMethod( GeneralizedMorphismCategory,
     
 end );
 
+#= comment for Julia
 InstallMethod( SerreQuotientCategory,
                [ IsCapCategory, IsFunction ],
                
@@ -143,6 +144,7 @@ InstallMethod( SerreQuotientCategory,
     fi;
     
 end );
+# =#
 
 BindGlobal( "CAP_INTERNAL_INSTALL_METHODS_FOR_GENERALIZED_MORPHISM_SWITCHER",
     
@@ -190,6 +192,7 @@ end );
 
 CAP_INTERNAL_INSTALL_METHODS_FOR_GENERALIZED_MORPHISM_SWITCHER();
 
+#= comment for Julia
 InstallGlobalFunction( "SwitchGeneralizedMorphismStandardHARDCODE",
   
   function( type )
@@ -223,3 +226,4 @@ InstallGlobalFunction( "SwitchGeneralizedMorphismStandardHARDCODE",
     od;
     
 end );
+# =#
