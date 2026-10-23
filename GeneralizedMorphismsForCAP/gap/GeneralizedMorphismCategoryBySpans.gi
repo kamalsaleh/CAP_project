@@ -72,6 +72,7 @@ InstallGlobalFunction( INSTALL_FUNCTIONS_FOR_GENERALIZED_MORPHISM_CATEGORY_BY_SP
         
     end );
     
+    #= comment for Julia
     # the following optimizations probably do not fulfill the specification "equal input gives equal output", see https://github.com/homalg-project/CAP_project/issues/1669
     InstallOtherMethod( PreCompose,
                         [ CategoryFilter( category ), MorphismFilter( category ) and HasIdentityAsReversedArrow, MorphismFilter( category ) and HasIdentityAsReversedArrow ],
@@ -100,6 +101,7 @@ InstallGlobalFunction( INSTALL_FUNCTIONS_FOR_GENERALIZED_MORPHISM_CATEGORY_BY_SP
           return GeneralizedMorphismBySpan( ReversedArrow( morphism1 ), arrow );
 
     end );
+    # =#
     
 
     ## AdditionForMorphisms
@@ -220,6 +222,8 @@ end );
 ####################################
 
 ##
+#% G2J:julia-only @FilterIntersection( IsGeneralizedMorphismBySpan, HasArrow, HasReversedArrow )
+
 InstallMethod( GeneralizedMorphismCategoryBySpans,
                [ IsCapCategory ],
                
@@ -273,7 +277,7 @@ InstallMethod( GeneralizedMorphismCategoryBySpans,
                                              name,
                                              IsGeneralizedMorphismCategoryBySpans,
                                              IsGeneralizedMorphismCategoryBySpansObject,
-                                             IsGeneralizedMorphismBySpan and HasArrow and HasReversedArrow,
+                                             FilterIntersection( IsGeneralizedMorphismBySpan, HasArrow, HasReversedArrow ),
                                              IsCapCategoryTwoCell,
                                              fail,
                                              fail,
@@ -285,15 +289,19 @@ InstallMethod( GeneralizedMorphismCategoryBySpans,
     
     SetIsEnrichedOverCommutativeRegularSemigroup( generalized_morphism_category, true );
     
+    #= comment for Julia
     SetFilterObj( generalized_morphism_category, WasCreatedAsGeneralizedMorphismCategoryBySpans );
+    # =#
     
     INSTALL_FUNCTIONS_FOR_GENERALIZED_MORPHISM_CATEGORY_BY_SPANS( generalized_morphism_category );
     
+    #= comment for Julia
     AddPredicateImplicationFileToCategory( generalized_morphism_category,
       Filename(
         DirectoriesPackageLibrary( "GeneralizedMorphismsForCAP", "LogicForGeneralizedMorphismCategory" ),
         "PredicateImplicationsForGeneralizedMorphismCategory.tex" )
     );
+    # =#
     
     Finalize( generalized_morphism_category );
     

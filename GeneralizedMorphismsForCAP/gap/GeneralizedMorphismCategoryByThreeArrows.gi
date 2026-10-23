@@ -97,9 +97,10 @@ InstallGlobalFunction( INSTALL_FUNCTIONS_FOR_GENERALIZED_MORPHISM_BY_THREE_ARROW
         
     end );
     
+    #= comment for Julia
     # the following optimizations probably do not fulfill the specification "equal input gives equal output", see https://github.com/homalg-project/CAP_project/issues/1669
     InstallOtherMethod( PreCompose,
-                        [ CategoryFilter( category ), MorphismFilter( category ) and HasIdentityAsRangeAid, MorphismFilter( category ) and HasIdentityAsSourceAid ],
+              [ CategoryFilter( category ), MorphismFilter( category ) and HasIdentityAsRangeAid, MorphismFilter( category ) and HasIdentityAsSourceAid ],
                         
       function( cat, mor1, mor2 )
         
@@ -164,6 +165,7 @@ InstallGlobalFunction( INSTALL_FUNCTIONS_FOR_GENERALIZED_MORPHISM_BY_THREE_ARROW
           return AsGeneralizedMorphismByThreeArrows( PreCompose( honest_category, Arrow( mor1 ), Arrow( mor2 ) ) );
 
     end );
+            # =#
     
     
     ## AdditionForMorphisms
@@ -272,6 +274,8 @@ InstallGlobalFunction( INSTALL_FUNCTIONS_FOR_GENERALIZED_MORPHISM_BY_THREE_ARROW
 end );
 
 ##
+#% G2J:julia-only @FilterIntersection( IsGeneralizedMorphismByThreeArrows, HasSourceAid, HasRangeAid, HasArrow )
+
 InstallMethod( GeneralizedMorphismCategoryByThreeArrows,
                [ IsCapCategory ],
                
@@ -325,7 +329,7 @@ InstallMethod( GeneralizedMorphismCategoryByThreeArrows,
                                              name,
                                              IsGeneralizedMorphismCategoryByThreeArrows,
                                              IsGeneralizedMorphismCategoryByThreeArrowsObject,
-                                             IsGeneralizedMorphismByThreeArrows and HasSourceAid and HasRangeAid and HasArrow,
+                                             FilterIntersection( IsGeneralizedMorphismByThreeArrows, HasSourceAid, HasRangeAid, HasArrow ),
                                              IsCapCategoryTwoCell,
                                              fail,
                                              fail,
@@ -337,15 +341,19 @@ InstallMethod( GeneralizedMorphismCategoryByThreeArrows,
     
     SetIsEnrichedOverCommutativeRegularSemigroup( generalized_morphism_category, true );
     
+    #= comment for Julia
     SetFilterObj( generalized_morphism_category, WasCreatedAsGeneralizedMorphismCategoryByThreeArrows );
+    # =#
     
     INSTALL_FUNCTIONS_FOR_GENERALIZED_MORPHISM_BY_THREE_ARROWS_CATEGORY( generalized_morphism_category );
     
+    #= comment for Julia
     AddPredicateImplicationFileToCategory( generalized_morphism_category,
       Filename(
         DirectoriesPackageLibrary( "GeneralizedMorphismsForCAP", "LogicForGeneralizedMorphismCategory" ),
         "PredicateImplicationsForGeneralizedMorphismCategory.tex" )
     );
+    # =#
     
     Finalize( generalized_morphism_category );
     
@@ -513,10 +521,13 @@ InstallMethod( DomainAssociatedMorphismCodomainTriple,
     
     range_aid := RangeAid( generalized_morphism );
     
-    if HasIsSubobject( source_aid ) 
+     #= comment for Julia
+     if HasIsSubobject( source_aid )
        and IsSubobject( source_aid )
        and HasIsFactorobject( range_aid )
        and IsFactorobject( range_aid ) then
+     # =#
+     #% G2J:julia-only if IsSubobject( source_aid ) and IsFactorobject( range_aid ) then
        
        return [ source_aid, morphism_aid, range_aid ];
     
@@ -542,7 +553,7 @@ end );
 
 ##
 InstallMethod( DomainAssociatedMorphismCodomainTriple,
-               [ IsGeneralizedMorphismByThreeArrows and HasIdentityAsRangeAid ],
+               [ FilterIntersection( IsGeneralizedMorphismByThreeArrows, HasIdentityAsRangeAid ) ],
                
   function( generalized_morphism )
     local source_aid, morphism_aid, range_aid, domain, pushout_diagram, associated_morphism, codomain;
@@ -553,8 +564,11 @@ InstallMethod( DomainAssociatedMorphismCodomainTriple,
     
     range_aid := RangeAid( generalized_morphism );
     
-    if HasIsSubobject( source_aid )
+     #= comment for Julia
+     if HasIsSubobject( source_aid )
        and IsSubobject( source_aid ) then
+     # =#
+     #% G2J:julia-only if IsSubobject( source_aid ) then
        
        return [ source_aid, morphism_aid, range_aid ];
     
@@ -575,7 +589,7 @@ end );
 
 ##
 InstallMethod( DomainAssociatedMorphismCodomainTriple,
-               [ IsGeneralizedMorphismByThreeArrows and HasIdentityAsSourceAid ],
+               [ FilterIntersection( IsGeneralizedMorphismByThreeArrows, HasIdentityAsSourceAid ) ],
                  
   function( generalized_morphism )
     local source_aid, morphism_aid, range_aid, codomain, pullback_diagram, domain, associated_morphism;
@@ -586,8 +600,11 @@ InstallMethod( DomainAssociatedMorphismCodomainTriple,
     
     range_aid := RangeAid( generalized_morphism );
     
-    if HasIsFactorobject( range_aid )
+     #= comment for Julia
+     if HasIsFactorobject( range_aid )
        and IsFactorobject( range_aid ) then
+     # =#
+     #% G2J:julia-only if IsFactorobject( range_aid ) then
        
        return [ source_aid, morphism_aid, range_aid ];
     
@@ -608,9 +625,7 @@ end );
 
 ##
 InstallMethod( DomainAssociatedMorphismCodomainTriple,
-               [ IsGeneralizedMorphismByThreeArrows
-                 and HasIdentityAsSourceAid
-                 and HasIdentityAsRangeAid ],
+               [ FilterIntersection( IsGeneralizedMorphismByThreeArrows, HasIdentityAsSourceAid, HasIdentityAsRangeAid ) ],
                  
   function( generalized_morphism )
     
@@ -798,8 +813,7 @@ end : ArgumentNumber := 2 );
 ## than pullbacks.
 ##
 InstallMethod( PseudoInverse,
-               [ IsGeneralizedMorphismByThreeArrows
-                 and HasIdentityAsRangeAid ],
+               [ FilterIntersection( IsGeneralizedMorphismByThreeArrows, HasIdentityAsRangeAid ) ],
                  
   function( generalized_morphism )
     
@@ -827,8 +841,7 @@ InstallMethod( PseudoInverse,
 end );
 
 InstallMethod( PseudoInverse,
-               [ IsGeneralizedMorphismByThreeArrows
-                 and HasIdentityAsSourceAid ],
+               [ FilterIntersection( IsGeneralizedMorphismByThreeArrows, HasIdentityAsSourceAid ) ],
                
   function( generalized_morphism )
     
